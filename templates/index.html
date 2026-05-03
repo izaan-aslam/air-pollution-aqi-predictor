@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirSense — AQI Predictor</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <h1>AirSense</h1>
+    <p>Machine Learning Based Environmental Analysis Tool</p>
+    <p class="subtext">
+      Predicts Air Quality Index using pollutant concentration data (Regression Model)
+    </p>
+  </header>
+
+  <div class="card">
+
+    <div class="form-group">
+      <label>CO (Carbon Monoxide)</label>
+    <input type="number" id="co" placeholder="e.g. 5" min="0" max="50" required />
+    </div>
+
+    <div class="form-group">
+      <label>O₃ (Ozone)</label>
+     <input type="number" id="ozone" placeholder="e.g. 35" min="0" max="200" required />
+    </div>
+
+    <div class="form-group">
+      <label>NO₂ (Nitrogen Dioxide)</label>
+      <input type="number" id="no2" placeholder="e.g. 20" min="0" max="100" required />
+    </div>
+
+    <div class="form-group">
+      <label>PM2.5 (Fine Particulate Matter)</label>
+     <input type="number" id="pm25" placeholder="e.g. 80" min="0" max="500" required />
+    </div>
+
+    <button onclick="predict()">Predict Air Quality</button>
+
+    <hr class="divider" />
+
+
+    <div id="result">
+
+      <div class="result-aqi">
+        <div class="aqi-number" id="aqiNumber">—</div>
+        <div class="aqi-label">Predicted AQI</div>
+      </div>
+
+      <hr class="divider" />
+
+      <div id="aqiCategory"></div>
+      <div id="healthTip"></div>
+
+    </div>
+    <br>
+    <br>
+      <p class="section-title">Comparable Cities</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Country</th>
+            <th>AQI</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody id="cityTable"></tbody>
+      </table>
+
+    </div>
+
+
+
+  <footer>
+    Muhammad Izaan · Hussain Mushtaq · Muhammad Shaban
+  </footer>
+
+<script>
+  function getRating(aqi) {
+    if (aqi <= 50)  return "Good";
+    if (aqi <= 100) return "Moderate";
+    if (aqi <= 150) return "Unhealthy for Sensitive Groups";
+    if (aqi <= 200) return "Unhealthy";
+    if (aqi <= 300) return "Very Unhealthy";
+    return "Hazardous";
+  }
+
+  async function loadCities(aqi) {
+    const res    = await fetch(`/cities?aqi=${aqi}`);
+    const cities = await res.json();
+    const tbody  = document.getElementById("cityTable");
+    tbody.innerHTML = "";
+    cities.forEach(c => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${c.city}</td><td>${c.country}</td><td>${c.aqi}</td><td>${getRating(c.aqi)}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  loadCities(100);
+
+async function predict() {
+  const data = {
+    co: document.getElementById("co").value,
+    ozone: document.getElementById("ozone").value,
+    no2: document.getElementById("no2").value,
+    pm25: document.getElementById("pm25").value
+  };
+
+if (!data.co || !data.ozone || !data.no2 || !data.pm25) {
+  alert("Please fill all fields");
+  return;
+}
+
+  const res = await fetch("/predict", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+
+document.getElementById("aqiNumber").textContent = result.aqi;
+document.getElementById("aqiCategory").textContent = result.category;
+document.getElementById("healthTip").textContent = result.health_tip;
+
+document.getElementById("result").style.display = "block";
+
+loadCities(result.aqi); 
+}
+</script>
+
+</body>
+</html>

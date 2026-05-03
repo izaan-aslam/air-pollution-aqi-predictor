@@ -1,0 +1,141 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f4f7f5;
+  color: #2d3a30;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px 60px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+header h1 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e3a2f;
+}
+
+header p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #5a7060;
+}
+
+.subtext {
+  font-size: 0.8rem;
+  margin-top: 5px;
+  color: #7a8b80;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #d9e4dc;
+  border-radius: 12px;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 650px;
+  box-shadow: 0 2px 12px rgba(30,58,47,0.07);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #3d5244;
+  margin-bottom: 6px;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #bdd0c4;
+  border-radius: 7px;
+  font-size: 1rem;
+  background: #fafcfb;
+  color: #1e3a2f;
+}
+
+button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  background: #2d6a4f;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1b4332;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #d9e4dc;
+  margin: 28px 0;
+}
+
+#result {
+  display: none;
+}
+
+.aqi-number {
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.aqi-label {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #5a7060;
+}
+
+.section-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+  background: #f0f5f2;
+}
+
+td {
+  padding: 10px;
+  border-top: 1px solid #e8f0eb;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.85rem;
+  color: #5a7060;
+  text-align: center;
+}
